@@ -10,11 +10,11 @@ declare global {
         __r: (moduleId: number) => unknown;
         __d: unknown;
         __c?: () => Record<string, unknown> | Map<string, unknown>;
-        __DEV__: boolean;
         Object: ObjectConstructor;
     }
 
     let window: Window & typeof globalThis;
+    let __DEV__: boolean;
 
     interface GlobalThis {
         __r: (moduleId: number) => unknown;

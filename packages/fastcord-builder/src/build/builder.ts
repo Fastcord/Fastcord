@@ -57,7 +57,7 @@ export class Builder {
 				".png": "dataurl",
 			},
 			define: {
-				"window.__DEV__": production ? "false" : "true",
+				__DEV__: production ? "false" : "true",
 				"process.env.NODE_ENV": production ? '"production"' : '"development"',
 			},
 			inject: [

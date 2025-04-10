@@ -13,7 +13,7 @@ import { getRegisteredApp } from "./appRegistry";
  */
 export async function initializeFastcord(): Promise<void> {
 	try {
-		if (window.__DEV__) {
+		if (__DEV__) {
 			await connectDebugger();
 			patchLogs();
 		}
