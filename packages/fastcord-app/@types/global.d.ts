@@ -10,6 +10,7 @@ declare global {
         __r: (moduleId: number) => unknown;
         __d: unknown;
         __c?: () => Record<string, unknown> | Map<string, unknown>;
+        __DEV__: boolean;
         Object: ObjectConstructor;
     }
 

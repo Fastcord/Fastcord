@@ -10,6 +10,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "spitroast": "^2.1.6"
+    "spitroast": "1.4.4"
   }
 }

@@ -1,8 +1,10 @@
 import * as path from "node:path";
-import swc from "@swc/core";
+import swc, { type ExpressionStatement, type Identifier } from "@swc/core";
 import chalk from "chalk";
 import { type BuildOptions, type BuildResult, build } from "esbuild";
+import globalPlugin from "esbuild-plugin-globals";
 import type { FastcordConfig } from "../config";
+import { metroDependencies } from "./metro-dependencies.ts";
 
 type BuildResultConfig = {
 	config: BuildOptions;
@@ -55,18 +57,26 @@ export class Builder {
 				".png": "dataurl",
 			},
 			define: {
-				__DEV__: production ? "false" : "true",
+				"window.__DEV__": production ? "false" : "true",
+				"process.env.NODE_ENV": production ? '"production"' : '"development"',
 			},
 			inject: [
 				`${path.resolve(__dirname, "./shims/async-iterator-symbol.js")}`,
 				`${path.resolve(__dirname, "./shims/promise-all-settled.js")}`,
 			],
 			alias: {
-				"!fastcord-deps-shim!": `${path.resolve(__dirname, "./shims/deps-shim.js")}`,
+				"!fastcord-deps-shim!": `${path.resolve(__dirname, "./shims/dependencies-modules.ts")}`,
 				"react/jsx-runtime": `${path.resolve(__dirname, "./shims/react-jsx-runtime.js")}`,
 				spitroast: "./node_modules/spitroast",
 			},
 			plugins: [
+				globalPlugin({
+					...metroDependencies.reduce((obj: Record<string, string>, key) => {
+						obj[key] =
+							`require("!fastcord-deps-shim!")[${JSON.stringify(key)}]`;
+						return obj;
+					}, {}),
+				}),
 				{
 					name: "swc",
 					setup: (build) => {

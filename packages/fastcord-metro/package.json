@@ -7,5 +7,10 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/react": "^19.0.12",
+    "react-native-reanimated": "^3.17.1",
+    "type-fest": "^4.37.0"
   }
 }
